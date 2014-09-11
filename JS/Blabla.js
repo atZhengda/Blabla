@@ -1,0 +1,94 @@
+if (!window.$ || !window.jQuery) {
+    var jsCode = document.createElement('script');
+    jsCode.setAttribute('src', 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js');
+    document.body.appendChild(jsCode);
+}
+
+function getRandomCodes() {
+    codes = ['SOP. A bribe. A sop for Cerberus; a bribe for a porter,turnkey, or gaoler.',
+        'One planet is all you get',
+        '老板，结帐。多少个盘子？',
+        '哈哈，终于要下班啦',
+        '2014-09-02',
+        'Eating chocolate is like being in love without the aggravation',
+        'Democracy is good.  I say this because other systems are worse.',
+        'Sample codes from http://www.iheartquotes.com/api/v1/random'
+    ];
+    return codes[Math.floor(Math.random() * codes.length)];
+}
+
+function getCssString() {
+    style = [
+        '.barge {',
+        'position: absolute;',
+        'left: 0px;',
+        'top: 0px;',
+        'overflow:hidden;',
+        '/*opacity: 0.5;*/',
+        'height: 100%;',
+        'width: 100%;',
+        'pointer-events: none;',
+        'display: flex;',
+        'z-index: 1000;',
+        '}',
+        '.bargeText {',
+        'position:absolute;',
+        'font-size:26px;',
+        'width: 100%;',
+        'margin-left:100%;}',
+    ];
+    return style.join('\n');
+}
+
+window.Blabla = {
+    setBarge: function(targetElement) {
+        if (jQuery('.barge').size() == 0) {
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.innerHTML = getCssString();
+            document.head.appendChild(style);
+            var element = document.createElement('div');
+            element.className = 'barge';
+            if (targetElement === undefined) {
+                jQuery('body').append(element);
+            } else {
+                targetElement.append(element);
+            }
+        }
+    },
+    say: function(text) {
+        if (!window.$ || !window.jQuery) {
+            return;
+        }
+        Blabla.setBarge();
+        var color = ['red', 'black', 'white', 'blue', 'red', 'blue'];
+        var element = document.createElement('div');
+        jQuery('.barge').append(element);
+        element.innerHTML = text;
+        element.className = 'bargeText';
+        element.style.color = color[Math.floor(Math.random() * color.length)];
+        element.style['top'] = Math.floor(5 + Math.random() * 80) + '%';
+        var anitimeout = (Math.random() * 5.0 + 1.5).toFixed(1);
+        var aniTime = 'all ' + anitimeout + 's cubic-bezier(.07,.47,.98,.57)';
+        element.style['transition'] = aniTime;
+        element.style['-moz-transition'] = aniTime;
+        element.style['-webkit-transition'] = aniTime;
+        element.style['-o-transition'] = aniTime;
+        setTimeout(function() {
+            jQuery(element).css('transform', 'translateX(-200%)');
+            jQuery(element).css('-webkit-transform', 'translateX(-200%)');
+        }, 300);
+        setTimeout(function() {
+            jQuery(element).remove();
+        }, anitimeout * 1000 + 1000);
+    },
+    sing: function(number) {
+        if (typeof number == 'number' && number == parseInt(number)) {
+            for (var i = 0; i < number; i++) {
+                setTimeout(function() {
+                    Blabla.say(getRandomCodes());
+                }, Math.random() * 6000);
+            }
+        }
+    }
+};
