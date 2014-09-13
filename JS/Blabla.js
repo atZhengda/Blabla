@@ -29,7 +29,7 @@ function getCssString() {
         'width: 100%;',
         'pointer-events: none;',
         'display: flex;',
-        'z-index: 1000;',
+        'z-index: 100001;',
         '}',
         '.bargeText {',
         'position:absolute;',
